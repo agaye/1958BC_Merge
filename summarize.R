@@ -26,7 +26,7 @@ count2 <- matrix(data=NA, nrow=size, ncol=size, dimnames=list(files,files))
 
 for(i in 1:1){#(size-1)){
   if(i == size){ break }
-  for(j in (i+1):5){
+  for(j in (i+1):size){
     # print file names to monitor progress
     cat(files[i],"-", files[j], "...\n")
     
