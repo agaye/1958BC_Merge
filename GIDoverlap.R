@@ -22,12 +22,18 @@ allGIDs <- c()
 for(i in 1:size){
   cat(files[i],"\n")
   for(j in 1:size){
-    x <- length(intersect(mylist[[i]][,3],mylist[[j]][,3]))
-    counts[i,j] <- x 
+    t1 <- mylist[[i]]
+    t2 <- mylist[[j]]
+    if(i == j){ 
+      counts[i,j] <- length (t2[,3]) - length(unique(t2[,3]))
+    }else{
+      x <- length(intersect(t1[,3],t2[,3]))
+      counts[i,j] <- x 
+    }
   }
   allGIDs <- append(allGIDs, as.character(mylist[[i]][,3]))
 }
-diag(counts) <- '---'
+
 # store the matrix of counts
 path2store <- "/home/ag13748/1958BC/Merge.31.8.14/overlaps/GIDoverlapCount.csv"
 write.table(counts, file=path2store, quote=FALSE, row.names=TRUE, col.names=TRUE, sep=',')

@@ -76,7 +76,7 @@ for(i in 1:(size)){
     
     # save the names of the overlaping SNPs to use later when merging files
     path2argfiles <- "/home/ag13748/1958BC/Merge.31.8.14/plinkArgFiles/arg4checkdups/"
-    filename <- paste0(path2argfiles, "/", paste0(files[i], "_", files[j], ".txt")) 
+    filename <- paste0(path2argfiles, paste0(files[i], "_", files[j], ".txt")) 
     write.table(mreal[,c(3,5)], file=filename, quote=FALSE, row.names=FALSE, col.names=c(files[i],files[j]))
   }
 }
