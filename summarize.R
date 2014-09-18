@@ -46,7 +46,7 @@ for(i in 1:1){#(size-1)){
     # get counts depending on if I am counting duplicates within a dataset or across datasets
     if(j < 3){
       out1 <- countwithin(t, f1, files[i], outpath)
-      count1[i,j-1] <- paste0(as.character(length(out1[[1]])), "-", length(out1[[2]]))   
+      count1[i,j-1] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
       count2[i,j-1] <- dim(out1[[3]])[1]
     }
     out2 <- countacross(t, f1, f2, files[i], files[j])

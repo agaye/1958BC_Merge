@@ -7,7 +7,7 @@
 
 # load the link files and store them in a list
 path <- "/home/ag13748/1958BC/Merge.31.8.14/plinkArgFiles/args4conversion/"
-files <- c("cng","metabochip","rahi","t1dgc","wtccc1_aff","wtccc1_inf","wtccc2_aff","wtccc2_ill","wtccc1_15k")
+files <- c("cng","metabochip","rahi","t1dgc","wtccc1_aff","wtccc1_inf","wtccc2_ill","wtccc1_15k","wtccc2_aff")
 size <- length(files)
 mylist <- vector("list", size)
 for(i in 1:size){
