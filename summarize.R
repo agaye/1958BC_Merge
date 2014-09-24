@@ -27,25 +27,26 @@ count2 <- matrix(data=NA, nrow=size, ncol=size, dimnames=list(files,files))
 for(i in 1:5){#(size-1)){
   if(i == size){ break }
   
-  # load input file
-  infile <- paste0(path0,files[i], "_", files[i+1])
-  t <- read.table(paste0(infile,".genome"), header=T)
-  
-  # get the oduplicated GID names within the dataset
-  path <- "/home/ag13748/1958BC/Merge.31.8.14/plinkArgFiles/args4conversion/"
-  f1 <- read.table(paste0(path,files[i], ".txt"))  
-  
-  # get counts of duplicates within the dataset
-  out1 <- countwithin(t, f1, files[i], path1)
-  count1[i,i] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
-  count2[i,i] <- dim(out1[[3]])[1]
-  
-  for(j in (i+1):size){
+ for(j in (i+1):size){
     # print file names to monitor progress
     cat(files[i],"-", files[j], "...\n")
     
-    # get the oduplicated GID names within the dataset
+    # load input file
+    infile <- paste0(path0,files[i], "_", files[i+1])
+    t <- read.table(paste0(infile,".genome"), header=T)    
+    
+    
+    # get the duplicated GID names
+    path <- "/home/ag13748/1958BC/Merge.31.8.14/plinkArgFiles/args4conversion/"
+    f1 <- read.table(paste0(path,files[i], ".txt"))     
     f2 <- read.table(paste0(path,files[j], ".txt"))
+    
+    if(i == j-1){
+      # get counts of duplicates within the dataset
+      out1 <- countwithin(t, f1, files[i], path1)
+      count1[i,i] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
+      count2[i,i] <- dim(out1[[3]])[1]
+    }
     
     # output file
     system(paste0("mkdir ", paste0(path1, files[i], "_", files[j])))
