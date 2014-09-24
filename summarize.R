@@ -16,8 +16,8 @@ path0 = "/home/ag13748/1958BC/Merge.31.8.14/checksResults/"
 path1 = "/home/ag13748/1958BC/Merge.31.8.14/summaries/"
 
 # load the functions required 
-source("/home/ag13748/1958BC/Merge.31.8.14/scripts/countwithin.R")
-source("/home/ag13748/1958BC/Merge.31.8.14/scripts/countacross.R")
+source("/home/ag13748/1958BC/1958BC_Merge/countwithin.R")
+source("/home/ag13748/1958BC/1958BC_Merge/countacross.R")
 
 # count expected duplicates found, expected duplicates not found and unexpected duplicates found
 # the 1st matrix hold the counts of expected found and not found and the 2nd the counts of unexpected
