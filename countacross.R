@@ -20,10 +20,10 @@ countacross <- function (t, f1, f2, n1, n2){
 		  
   # unexpected duplicates
 	uexdf <- unique(df[which(df[,2] != df[,4]),c(2,4)])
-	
-	if(length(c(uexdf[,1],uexdf[,2])) > 2*(dim(uexdf)[1])){
-	   # check if there are no inverted links: GIDXXX-GIDYYY in one row and GIDYYY-GIDXXX in another
-		 warning("   Some unexpected duplicates might have been counted twice!")
+  if(class(uexdf) == 'character'){ uexdf <- as.matrix(t(uexdf)) } # to prevent one row matrix going as vector
+  if(length(c(uexdf[,1],uexdf[,2])) > 2*(dim(uexdf)[1])){
+  	# check if there are no inverted links: GIDXXX-GIDYYY in one row and GIDYYY-GIDXXX in another
+  	warning("   Some unexpected duplicates might have been counted twice!")
   }
   
 	return(list(exdf, exdnf, uexdf))

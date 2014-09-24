@@ -42,9 +42,9 @@ for(i in 1:5){#(size-1)){
     
     if(i == j-1){
       # get counts of duplicates within the dataset
-      #out1 <- countwithin(t, f1, files[i], path1)
-      #count1[i,i] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
-      #count2[i,i] <- dim(out1[[3]])[1]
+      out1 <- countwithin(t, f1, files[i], path1)
+      count1[i,i] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
+      count2[i,i] <- dim(out1[[3]])[1]
     }
     
     # output file
