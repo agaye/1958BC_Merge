@@ -8,7 +8,7 @@ countwithin <- function (t, f, n, p){
 	# within a dataset attempt to count only if the there is indication of duplicates in the initial .fam file
 	if(length(f[,3]) != length(unique(f[,3]))){
 		 df <- as.matrix(t[which(t$FID1 == n & t$FID2==as.character(t$IID1)  & t$IID1==as.character(t$IID2) ), c(1,2,3,4)])
-		 exdf <- df
+		 exdf <- df[,3]
 		 dd <- f[duplicated(f[,3]),3]
 		 exdnf <- dd[which(!(dd %in% df[,3]))]   
 		 write.table(exdf, file=paste0(p, n, "_expectedfound.txt"), quote=F, row.names=F, col.names="GID")  

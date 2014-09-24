@@ -24,31 +24,34 @@ source("/home/ag13748/1958BC/Merge.31.8.14/scripts/countacross.R")
 count1 <- matrix(data=NA, nrow=size, ncol=size, dimnames=list(files,files))
 count2 <- matrix(data=NA, nrow=size, ncol=size, dimnames=list(files,files))
 
-for(i in 1:1){#(size-1)){
+for(i in 1:5){#(size-1)){
   if(i == size){ break }
+  
+  # load input file
+  infile <- paste0(path0,files[i], "_", files[i+1])
+  t <- read.table(paste0(infile,".genome"), header=T)
+  
+  # get the oduplicated GID names within the dataset
+  path <- "/home/ag13748/1958BC/Merge.31.8.14/plinkArgFiles/args4conversion/"
+  f1 <- read.table(paste0(path,files[i], ".txt"))  
+  
+  # get counts of duplicates within the dataset
+  out1 <- countwithin(t, f1, files[i], path1)
+  count1[i,i] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
+  count2[i,i] <- dim(out1[[3]])[1]
+  
   for(j in (i+1):size){
     # print file names to monitor progress
     cat(files[i],"-", files[j], "...\n")
     
-    # load input file
-    infile <- paste0(path0,files[i], "_", files[j])
-    t <- read.table(paste0(infile,".genome"), header=T)
-    
-    # get the overlapping GID names between the two dataset using the link files 
-    path <- "/home/ag13748/1958BC/Merge.31.8.14/plinkArgFiles/args4conversion/"
-    f1 <- read.table(paste0(path,files[i], ".txt"))
+    # get the oduplicated GID names within the dataset
     f2 <- read.table(paste0(path,files[j], ".txt"))
     
     # output file
     system(paste0("mkdir ", paste0(path1, files[i], "_", files[j])))
     outpath <- paste0(path1, files[i], "_", files[j],"/")
     
-    # get counts depending on if I am counting duplicates within a dataset or across datasets
-    if(j < 3){
-      out1 <- countwithin(t, f1, files[i], outpath)
-      count1[i,j-1] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
-      count2[i,j-1] <- dim(out1[[3]])[1]
-    }
+    # get counts of duplicates across datasets  
     out2 <- countacross(t, f1, f2, files[i], files[j])
     
     # save the GIDs in each of the categories (found, not found and unexpected
