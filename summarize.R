@@ -32,9 +32,8 @@ for(i in 1:5){#(size-1)){
     cat(files[i],"-", files[j], "...\n")
     
     # load input file
-    infile <- paste0(path0,files[i], "_", files[i+1])
+    infile <- paste0(path0,files[i], "_", files[j])
     t <- read.table(paste0(infile,".genome"), header=T)    
-    
     
     # get the duplicated GID names
     path <- "/home/ag13748/1958BC/Merge.31.8.14/plinkArgFiles/args4conversion/"
@@ -43,9 +42,9 @@ for(i in 1:5){#(size-1)){
     
     if(i == j-1){
       # get counts of duplicates within the dataset
-      out1 <- countwithin(t, f1, files[i], path1)
-      count1[i,i] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
-      count2[i,i] <- dim(out1[[3]])[1]
+      #out1 <- countwithin(t, f1, files[i], path1)
+      #count1[i,i] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
+      #count2[i,i] <- dim(out1[[3]])[1]
     }
     
     # output file
