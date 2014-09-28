@@ -24,13 +24,22 @@ source("/home/ag13748/1958BC/1958BC_Merge/countacross.R")
 count1 <- matrix(data=NA, nrow=size, ncol=size, dimnames=list(files,files))
 count2 <- matrix(data=NA, nrow=size, ncol=size, dimnames=list(files,files))
 
-for(i in 1:5){#(size-1)){
-  if(i == size){ break }
+for(i in 1:size){
+  if(i == size){ 
+    # print file names to monitor progress
+    cat(files[i],"...\n")      
+    tlast <- read.table(paste0(path0,files[i],".genome"), header=T)  
+    flast <- read.table(paste0(path,files[i], ".txt"))
+    # get counts of duplicates within the dataset
+    out1 <- countwithin(tlast, flast, files[i], path1)
+    count1[i,i] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
+    count2[i,i] <- dim(out1[[3]])[1]    
+    
+    break 
+  }
   
  for(j in (i+1):size){
-    # print file names to monitor progress
-    cat(files[i],"-", files[j], "...\n")
-    
+  
     # load input file
     infile <- paste0(path0,files[i], "_", files[j])
     t <- read.table(paste0(infile,".genome"), header=T)    
@@ -41,11 +50,17 @@ for(i in 1:5){#(size-1)){
     f2 <- read.table(paste0(path,files[j], ".txt"))
     
     if(i == j-1){
+      # print file names to monitor progress
+      cat(files[i],"...\n")        
+      tdiag <- read.table(paste0(path0,files[i],".genome"), header=T)  
       # get counts of duplicates within the dataset
-      out1 <- countwithin(t, f1, files[i], path1)
+      out1 <- countwithin(tdiag, f1, files[i], path1)
       count1[i,i] <- paste0(as.character(length(out1[[1]])), " [", length(out1[[2]]), "]")   
       count2[i,i] <- dim(out1[[3]])[1]
     }
+    
+    # print file names to monitor progress
+    cat(files[i],"-", files[j], "...\n")    
     
     # output file
     system(paste0("mkdir ", paste0(path1, files[i], "_", files[j])))
@@ -55,9 +70,15 @@ for(i in 1:5){#(size-1)){
     out2 <- countacross(t, f1, f2, files[i], files[j])
     
     # save the GIDs in each of the categories (found, not found and unexpected
-    write.table(out2[[1]][,1], file=paste0(outpath,"expectedfound.txt"), quote=F, row.names=F, col.names="GID")  
-    write.table(out2[[2]], file=paste0(outpath,"expectedNOTfound.txt"), quote=F, row.names=F, col.names="GID")
-    write.table(out2[[3]], file=paste0(outpath,"unexpected.txt"), quote=F, row.names=F, col.names=c(files[i], files[j]), sep=";")  
+    if(length(out2[[1]][,1]) > 0){
+      write.table(out2[[1]][,1], file=paste0(outpath,"expectedfound.txt"), quote=F, row.names=F, col.names="GID")        
+    }
+    if(length(out2[[2]]) > 0){
+      write.table(out2[[2]], file=paste0(outpath,"expectedNOTfound.txt"), quote=F, row.names=F, col.names="GID")    
+    }
+    if(length(out2[[3]]) > 0){
+      write.table(out2[[3]], file=paste0(outpath,"unexpected.txt"), quote=F, row.names=F, col.names=c(files[i], files[j]), sep=";")      
+    }
     
     # store the counts of expected found, not found in the cell in the 1st count matrix
     count1[i,j] <- paste0(as.character(dim(out2[[1]])[1]), " [", length(out2[[2]]),"]")
